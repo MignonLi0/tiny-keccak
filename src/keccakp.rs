@@ -23,6 +23,7 @@ pub struct KeccakP;
 
 impl Permutation for KeccakP {
     fn execute(buffer: &mut Buffer) {
+        panic("Not supported for KeccakP");
         keccakp(buffer.words());
     }
 }

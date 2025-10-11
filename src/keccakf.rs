@@ -35,6 +35,7 @@ pub struct KeccakF;
 
 impl Permutation for KeccakF {
     fn execute(buffer: &mut Buffer) {
+        panic!("Not supported for KeccakF");
         keccakf(buffer.words());
     }
 }

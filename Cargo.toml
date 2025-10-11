@@ -14,6 +14,11 @@ categories = ["cryptography", "no-std"]
 [dependencies]
 crunchy = "0.2.2"
 
+[target.'cfg(target_arch = "riscv64")'.dependencies]
+jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", branch = "feat/rv64", optional = true }
+[target.'cfg(not(target_arch = "riscv64"))'.dependencies]
+jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", branch = "feat/rv64" , optional = true, features = ["host"] }
+
 [profile.dev]
 opt-level = 3  # Controls the --opt-level the compiler builds with
 debug = false   # Controls whether the compiler passes `-g`
@@ -40,6 +45,10 @@ sha3 = []
 shake = []
 sp800 = ["cshake", "kmac", "tuple_hash"]
 tuple_hash = ["cshake"]
+
+jolt = [
+  "dep:jolt-inlines-keccak256",
+]
 
 [[test]]
 name = "keccak"

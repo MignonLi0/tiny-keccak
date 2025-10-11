@@ -12,9 +12,17 @@ use super::{bits_to_rate, keccakf::KeccakF, Hasher, KeccakState};
 /// ```
 ///
 /// [`Keccak SHA3 submission`]: https://keccak.team/files/Keccak-submission-3.pdf
-#[derive(Clone)]
 pub struct Keccak {
+    #[cfg(not(feature = "jolt"))]
     state: KeccakState<KeccakF>,
+    #[cfg(feature = "jolt")]
+    state: jolt_inlines_keccak256::Keccak256,
+}
+
+impl Clone for Keccak {
+    fn clone(&self) -> Self {
+        panic!("Keccak does not implement Clone");
+    }
 }
 
 impl Keccak {
@@ -50,7 +58,10 @@ impl Keccak {
 
     fn new(bits: usize) -> Keccak {
         Keccak {
+            #[cfg(not(feature = "jolt"))]
             state: KeccakState::new(bits_to_rate(bits), Self::DELIM),
+            #[cfg(feature = "jolt")]
+            state: jolt_inlines_keccak256::Keccak256::new(),
         }
     }
 }
@@ -88,6 +99,13 @@ impl Hasher for Keccak {
     /// #
     /// ```
     fn finalize(self, output: &mut [u8]) {
+        #[cfg(not(feature = "jolt"))]
         self.state.finalize(output);
+
+        #[cfg(feature = "jolt")]
+        {
+            let hash = self.state.finalize();
+            output.copy_from_slice(&hash);
+        }
     }
 }
