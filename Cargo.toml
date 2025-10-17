@@ -15,9 +15,9 @@ categories = ["cryptography", "no-std"]
 crunchy = "0.2.2"
 
 [target.'cfg(target_arch = "riscv64")'.dependencies]
-jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", branch = "feat/rv64",  default-features = false, optional = true }
+jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", default-features = false, optional = true }
 [target.'cfg(not(target_arch = "riscv64"))'.dependencies]
-jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", branch = "feat/rv64" ,  default-features = false, optional = true, features = ["host"] }
+jolt-inlines-keccak256 = { git = "https://github.com/a16z/jolt", default-features = false, optional = true, features = ["host"] }
 
 [profile.dev]
 opt-level = 3  # Controls the --opt-level the compiler builds with
