@@ -13,7 +13,9 @@ categories = ["cryptography", "no-std"]
 
 [dependencies]
 crunchy = "0.2.2"
-jolt-inlines-keccak256 = { version = "*", optional = true, features = ["host"] }
+
+[target.'cfg(not(target_arch = "riscv64"))'.dependencies]
+jolt-inlines-keccak256 = { version = "*", optional = true, default-features = false, features = ["host"] }
 
 [target.'cfg(target_arch = "riscv64")'.dependencies]
 jolt-inlines-keccak256 = { version = "*", optional = true, default-features = false }
